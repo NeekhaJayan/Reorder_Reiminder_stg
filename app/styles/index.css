@@ -1,0 +1,7 @@
+.borderless-textfield input {
+    border: none !important; /* Remove border */
+    background: transparent !important; /* Optional: Remove background */
+    outline: none !important; /* Remove focus outline */
+    box-shadow: none !important; /* Remove any shadow */
+  }
+  
