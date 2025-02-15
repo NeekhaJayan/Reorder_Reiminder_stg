@@ -4,7 +4,7 @@ import {
 import { useFetcher, useLoaderData, useNavigate } from "@remix-run/react";
 import { TitleBar, useAppBridge } from "@shopify/app-bridge-react";
 
-import '../styles/PricingTable.css';
+import '../../styles/PricingTable.css';
 
 
 

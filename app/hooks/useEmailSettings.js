@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import {useLoaderData} from "@remix-run/react";
+
 
 export  function useEmailSettings () {
 const { shop_domain, settingDetails } = useLoaderData();   

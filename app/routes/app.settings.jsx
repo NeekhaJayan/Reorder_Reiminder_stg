@@ -26,11 +26,11 @@ import {useFetcher,useLoaderData,useSearchParams} from "@remix-run/react";
 import { authenticate } from "../shopify.server";
 import "react-quill/dist/quill.snow.css";
 
-import PricingPlans from "./app.PricingPlans";
+import PricingPlans from "../componets/settings/PricingPlans";
 import { useOutletContext } from '@remix-run/react';
 import {getShopDetails} from '../utils/shopify';
 import SkeletonLoad from "../componets/SkeletonLoad";
-import {useEmailSettings} from "../../hooks/useEmailSettings";
+import {useEmailSettings} from "../hooks/useEmailSettings";
 import {useGeneralSettings} from "../hooks/useGeneralSettings";
 import {useSettings} from "../hooks/useSettings";
 import EmailSettingsTab from "../componets/settings/EmailSettingsTab";
@@ -62,6 +62,9 @@ export const action = async ({ request }) => {
     if (Settings.tab === "general-settings") {
       try {
         const shopDetail=await getShopDetails(admin);
+        if (!shopDetail?.createdAt) {
+          throw new Error("shopDetail.createdAt is missing or undefined");
+        }
         const created_at=new Date(shopDetail.createdAt);
         const jsonResponse = await orderInstance.SyncOrderDetails(created_at,admin)   
         
@@ -80,10 +83,10 @@ export const action = async ({ request }) => {
 
 
 export default function SettingsPage() {
-  const { shop_domain, settingDetails } = useLoaderData();
-  const { files,progress,bannerMessage,isSyncDisabled,loading, setBannerMessage, handleSync ,handleSubmit,handleDrop,handleRemoveImage } = useGeneralSettings();
+  const { shop_domain} = useLoaderData();
+  const { files,progress,bannerMessage,bannerStatus,isSyncDisabled,loading,imageUrlForPreview, setBannerMessage, handleSync ,handleSubmit,handleDrop,handleRemoveImage } = useGeneralSettings();
   const { subject, setSubject, fromName, setFromName, fromEmail, setFromEmail, coupon, setCoupon, discountPercent, setDiscountPercent,bufferTime, setBufferTime } = useEmailSettings();
-  const {selectedTab,tabKey,tabs,handleTabChange}=useSettings();
+  const {selectedTab,tabKey,tabs,handleTabChange,fetcher}=useSettings();
   const { plan } = useOutletContext();
   
   if (loading) {
@@ -109,10 +112,11 @@ export default function SettingsPage() {
             {selectedTab === 0 && (
              <GeneralSettingsTab 
                          shop_domain={shop_domain} 
-                         fetcher={fetcher} plan={plan} 
+                         fetcher={fetcher}  
                          files={files} progress={progress} 
                          bannerMessage={bannerMessage}
                          isSyncDisabled={isSyncDisabled} 
+                         loading={loading}
                          setBannerMessage={setBannerMessage}
                           handleSync={handleSync} 
                           handleSubmit={handleSubmit}

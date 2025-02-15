@@ -86,6 +86,7 @@ export  function useGeneralSettings() {
       setLoading(true);
     
       const formData = new FormData();
+      console.log(formData)
       formData.append("bannerImage", files[0]); // Ensure files is an array
       formData.append("shop_name", shop_domain);
     
@@ -110,7 +111,7 @@ export  function useGeneralSettings() {
     };
   
 
-  return { files,progress,bannerMessage,isSyncDisabled, setBannerMessage, loading, handleSync ,handleSubmit,handleDrop,handleRemoveImage};
+  return { files,progress,bannerMessage,bannerStatus,isSyncDisabled,imageUrlForPreview, setBannerMessage, loading, handleSync ,handleSubmit,handleDrop,handleRemoveImage};
 };
 
 

@@ -9,12 +9,13 @@ import {
     FormLayout,
     ProgressBar,
     Form,
+    Image,
     DropZone,
     Banner,LegacyStack
   } from "@shopify/polaris";
 
 
-const GeneralSettingsTab = ({ shop_domain,fetcher,plan,files,progress,bannerMessage,isSyncDisabled,setBannerMessage,handleSync,handleSubmit,handleDrop,handleRemoveImage} ) => {
+const GeneralSettingsTab = ({ shop_domain,fetcher,files,progress,bannerMessage,bannerStatus,isSyncDisabled,loading,setBannerMessage,handleSync,handleSubmit,handleDrop,handleRemoveImage} ) => {
 
     const fileUpload = (<DropZone.FileUpload actionHint="We recommend an image which is 600px wide." />);
     const uploadedFiles =Array.isArray(files) && files.length > 0 ? (
@@ -64,7 +65,7 @@ const GeneralSettingsTab = ({ shop_domain,fetcher,plan,files,progress,bannerMess
                                   {progress > 0 && (<ProgressBar progress={progress} />)}
                                   
                                   <div style={{marginTop:"0.5rem"}}>
-                                  <Button variant="primary" disabled={isSyncDisabled} onClick={handleSync}  >Sync Now</Button>                                 
+                                  <Button variant="primary" disabled={!isSyncDisabled} onClick={handleSync}  >Sync Now</Button>                                 
                                   </div>
                                   {bannerMessage && (
                                                 <Banner
